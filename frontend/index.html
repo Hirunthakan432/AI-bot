@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glassy AI Chat</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url("https://images.unsplash.com/photo-1526403226789-7098f3be33e8?auto=format&fit=crop&w=1400&q=80") no-repeat center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .chat-container {
+      width: 90%;
+      max-width: 500px;
+      height: 80vh;
+      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      text-align: center;
+      color: white;
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .chat-box {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 10px;
+      display: flex;
+      flex-direction: column;
+      color: white;
+    }
+
+    .msg {
+      margin: 10px 0;
+      padding: 12px 16px;
+      border-radius: 12px;
+      max-width: 80%;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .user {
+      align-self: flex-end;
+      background: rgba(0, 150, 255, 0.4);
+    }
+
+    .bot {
+      align-self: flex-start;
+    }
+
+    .input-area {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 12px 0 0 12px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      background: #00aaff;
+      color: white;
+      font-weight: bold;
+      border-radius: 0 12px 12px 0;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0088dd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <h2>AI Chat • Glass UI</h2>
+
+    <div class="chat-box" id="chatBox"></div>
+
+    <div class="input-area">
+      <input type="text" id="msgInput" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById("msgInput");
+      const chatBox = document.getElementById("chatBox");
+
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+      input.value = "";
+
+      const botMsg = addMessage("Thinking...", "bot");
+
+      try {
+        const res = await fetch("http://localhost:5000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        });
+
+        const data = await res.json();
+        botMsg.textContent = data.reply;
+
+      } catch (err) {
+        botMsg.textContent = "Error: " + err.message;
+      }
+    }
+
+    function addMessage(text, type) {
+      const msg = document.createElement("div");
+      msg.className = "msg " + type;
+      msg.textContent = text;
+      document.getElementById("chatBox").appendChild(msg);
+      document.getElementById("chatBox").scrollTop = document.getElementById("chatBox").scrollHeight;
+      return msg;
+    }
+  </script>
+
+</body>
+</html>
