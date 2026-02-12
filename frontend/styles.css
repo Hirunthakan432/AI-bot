@@ -1,0 +1,36 @@
+body {
+  background: radial-gradient(circle, #00ffff, #020012);
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  width: 360px;
+  background: #050a25;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px cyan;
+  color: cyan;
+}
+
+input, button, select {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  background: cyan;
+  font-weight: bold;
+}
+
+#messages {
+  height: 220px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
