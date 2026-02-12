@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Intelix AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="box">
+  <h1>⚡ Intelix</h1>
+
+  <div id="auth">
+    <input id="username" placeholder="Username">
+    <input id="password" type="password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="chat" style="display:none">
+    <select id="model" onchange="switchModel()">
+      <option value="gpt-4o-mini">⚡ Fast</option>
+      <option value="gpt-4.1-mini">🧠 Smart</option>
+    </select>
+
+    <div id="messages"></div>
+
+    <input id="prompt" placeholder="Ask Intelix">
+    <button onclick="send()">Send</button>
+
+    <button onclick="clearMemory()">🧹 Clear Memory</button>
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
